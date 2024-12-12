@@ -6,7 +6,7 @@ export async function fetchRepositories() {
     const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to fetch repos");
 
-    const repositories = await response.json();
+    const repositories: Repository[] = await response.json();
     // Validate the fetched repositories
     if (!isResponseValid(repositories)) {
       throw new Error("Fetched data does not contain the required properties");
