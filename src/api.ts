@@ -1,6 +1,6 @@
 import { Repository } from "./types";
 
-export async function fetchRepositories() {
+export async function fetchRepositories(): Promise<Repository[]> {
   const url = "https://api.github.com/orgs/stackbuilders/repos";
   try {
     const response = await fetch(url);
@@ -23,7 +23,7 @@ export async function fetchRepositories() {
 export function isResponseValid(
   repositories: Repository[],
   properties = ["name", "stargazers_count", "updated_at"],
-) {
+): boolean {
   // Check zod.dev
   if (!Array.isArray(repositories) || repositories.length === 0) {
     return false; // Return false if repositories is not a valid array or is empty
