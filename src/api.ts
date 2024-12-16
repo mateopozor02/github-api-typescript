@@ -15,6 +15,7 @@ export async function fetchRepositories() {
     return repositories;
   } catch (error) {
     console.error("Error fetching the repos: ", error);
+    return [];
   }
 }
 
