@@ -15,8 +15,7 @@ describe("isResponseValid", () => {
           updated_at: "2024-01-02T00:00:00Z",
         },
       ];
-      const properties = ["name", "stargazers_count", "updated_at"];
-      expect(isResponseValid(repositories, properties)).toBe(true);
+      expect(isResponseValid(repositories)).toBe(true);
     });
 
     it("returns true when no properties are specified and repositories are valid", () => {
@@ -32,7 +31,7 @@ describe("isResponseValid", () => {
           updated_at: "2024-01-02T00:00:00Z",
         },
       ];
-      expect(isResponseValid(repositories)).toBe(true); // Defaults to ["name", "stargazers_count", "updated_at"]
+      expect(isResponseValid(repositories)).toBe(true);
     });
   });
 });

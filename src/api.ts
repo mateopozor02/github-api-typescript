@@ -1,4 +1,5 @@
 import { Repository } from "./types";
+import { z } from "zod";
 
 export async function fetchRepositories(): Promise<Repository[]> {
   const url = "https://api.github.com/orgs/stackbuilders/repos";
@@ -20,16 +21,19 @@ export async function fetchRepositories(): Promise<Repository[]> {
 }
 
 // Property validation function
-export function isResponseValid(
-  repositories: Repository[],
-  properties = ["name", "stargazers_count", "updated_at"],
-): boolean {
-  // Check zod.dev
+export function isResponseValid(repositories: Repository[]): boolean {
+  // Define the zod expected schema
+  const repositorySchema = z.object({
+    name: z.string(),
+    stargazers_count: z.number(),
+    updated_at: z.string(),
+  });
   if (!Array.isArray(repositories) || repositories.length === 0) {
     return false; // Return false if repositories is not a valid array or is empty
   }
-  // Check if all properties exist in the first object of the repositories array
+  // Validate the properties in a repository
   const exampleRepo = repositories[0];
+  const isValid = repositorySchema.safeParse(exampleRepo).success;
 
-  return properties.every((prop) => prop in exampleRepo);
+  return isValid;
 }
