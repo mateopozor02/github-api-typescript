@@ -23,17 +23,15 @@ export async function fetchRepositories(): Promise<Repository[]> {
 // Property validation function
 export function isResponseValid(repositories: Repository[]): boolean {
   // Define the zod expected schema
-  const repositorySchema = z.object({
-    name: z.string(),
-    stargazers_count: z.number(),
-    updated_at: z.string(),
-  });
-  if (!Array.isArray(repositories) || repositories.length === 0) {
-    return false; // Return false if repositories is not a valid array or is empty
-  }
+  const repositorySchema = z.array(
+    z.object({
+      name: z.string(),
+      stargazers_count: z.number(),
+      updated_at: z.string(),
+    }),
+  );
   // Validate the properties in a repository
-  const exampleRepo = repositories[0];
-  const isValid = repositorySchema.safeParse(exampleRepo).success;
+  const isValid = repositorySchema.safeParse(repositories).success;
 
   return isValid;
 }
